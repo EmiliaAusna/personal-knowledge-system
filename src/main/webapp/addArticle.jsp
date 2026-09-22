@@ -3,28 +3,46 @@
 <html>
 <head>
     <title>新增知识文章</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: "Microsoft YaHei", Arial, sans-serif; background: #f3f4f6; color: #1f2937; padding: 30px 16px; font-size: 15px; }
+        .page-card { max-width: 760px; margin: 0 auto; background: #ffffff; border: 2px solid #d1d5db; border-radius: 10px; padding: 26px 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        h2 { font-size: 22px; padding-bottom: 12px; border-bottom: 2px solid #2563eb; margin-bottom: 20px; }
+        .form-row { margin-bottom: 18px; }
+        label { display: block; font-size: 14px; margin-bottom: 6px; color: #374151; font-weight: bold; }
+        input[type=text], select, textarea { width: 100%; border: 1px solid #9ca3af; border-radius: 6px; padding: 10px 12px; font-size: 15px; }
+        textarea { resize: vertical; line-height: 1.7; }
+        input[type=text]:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37,99,235,0.15); }
+        .submit-btn { border: 1px solid #2563eb; background: #2563eb; color: #fff; border-radius: 6px; padding: 10px 28px; font-size: 16px; cursor: pointer; }
+        .submit-btn:hover { background: #1d4ed8; }
+        .back { margin-top: 16px; font-size: 14px; }
+    </style>
 </head>
 <body>
-<h2>新增知识文章</h2>
-<form action="${pageContext.request.contextPath}/article/add" method="post">
-    <div>
-        文章标题：<input type="text" name="title" required/>
+<div class="page-card">
+    <h2>新增知识文章</h2>
+    <form action="${pageContext.request.contextPath}/article/add" method="post">
+        <div class="form-row">
+            <label for="title">文章标题</label>
+            <input type="text" id="title" name="title" required />
+        </div>
+        <div class="form-row">
+            <label for="categoryId">文章分类</label>
+            <select id="categoryId" name="categoryId">
+                <c:forEach items="${categoryList}" var="cat">
+                    <option value="${cat.categoryId}">${cat.categoryName}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="content">文章内容</label>
+            <textarea id="content" name="content" rows="12" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">提交文章</button>
+    </form>
+    <div class="back">
+        <a href="${pageContext.request.contextPath}/article/list">← 返回文章列表</a>
     </div>
-    <div>
-        文章分类：
-        <select name="categoryId">
-            <c:forEach items="${categoryList}" var="cat">
-                <option value="${cat.categoryId}">${cat.categoryName}</option>
-            </c:forEach>
-        </select>
-    </div>
-    <div>
-        文章内容：<br>
-        <textarea name="content" rows="12" cols="80" required></textarea>
-    </div>
-    <div>
-        <input type="submit" value="提交文章">
-    </div>
-</form>
+</div>
 </body>
 </html>

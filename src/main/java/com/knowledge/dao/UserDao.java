@@ -7,6 +7,9 @@ public interface UserDao {
     @Select("select * from `user` where username=#{username} and password=#{password}")
     User login(@Param("username") String username, @Param("password") String password);
 
+    @Select("select * from `user` where username=#{username}")
+    User findByUsername(@Param("username") String username);
+
     @Insert("insert into `user`(username,password,create_time) values(#{username},#{password},now())")
     int register(User user);
 }

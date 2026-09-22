@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -23,12 +24,22 @@ public class ArticleController {
     private CategoryService categoryService;
 
     @GetMapping("/list")
-    public String list(@RequestParam(required = false) Integer categoryId, Model model){
+    public String list(@RequestParam(required = false) Integer categoryId, Model model, HttpSession session){
+        User loginUser = (User) session.getAttribute("loginUser");
         List<Article> articleList;
         if(categoryId != null){
             articleList = articleService.findByCategoryId(categoryId);
         }else{
             articleList = articleService.findAll();
+        }
+        // 登录用户：自己的文章排在最前面，方便区分"我的"和"其他人的"
+        if(loginUser != null){
+            final Integer userId = loginUser.getUserId();
+            articleList.sort((a,b) -> {
+                boolean aMine = userId.equals(a.getUserId());
+                boolean bMine = userId.equals(b.getUserId());
+                return aMine == bMine ? 0 : (aMine ? -1 : 1);
+            });
         }
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("articleList",articleList);
@@ -37,8 +48,11 @@ public class ArticleController {
     }
 
     @GetMapping("/detail")
-    public String detail(Integer articleId, Model model){
+    public String detail(Integer articleId, Model model, HttpSession session){
         Article article = articleService.findById(articleId);
+        if(article == null){
+            return "redirect:/article/list";
+        }
         model.addAttribute("article",article);
         return "detail";
     }
@@ -65,7 +79,16 @@ public class ArticleController {
     }
 
     @GetMapping("/delete")
-    public String delete(Integer articleId){
+    public String delete(Integer articleId, HttpSession session, RedirectAttributes redirectAttributes){
+        User loginUser = (User) session.getAttribute("loginUser");
+        if(loginUser == null){
+            return "redirect:/user/toLogin";
+        }
+        Article article = articleService.findById(articleId);
+        if(article == null || !article.getUserId().equals(loginUser.getUserId())){
+            redirectAttributes.addFlashAttribute("msg","无权删除该文章");
+            return "redirect:/article/list";
+        }
         articleService.delete(articleId);
         return "redirect:/article/list";
     }
