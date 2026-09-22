@@ -1,6 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>个人知识系统-注册</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,11 +21,11 @@
 <body>
 <div class="reg-card">
     <h2>个人知识系统注册</h2>
-    <p class="msg">${msg}</p>
-    <form action="${pageContext.request.contextPath}/user/register" method="post">
+    <p class="msg" th:if="${msg}" th:text="${msg}"></p>
+    <form th:action="@{/user/register}" method="post">
         <div class="form-row">
             <label for="username">用户名</label>
-            <input type="text" id="username" name="username" value="${username}" required />
+            <input type="text" id="username" name="username" th:value="${username}" required />
         </div>
         <div class="form-row">
             <label for="password">密码</label>
@@ -36,7 +37,7 @@
         </div>
         <button type="submit" class="submit-btn">注 册</button>
     </form>
-    <p class="footer"><a href="${pageContext.request.contextPath}/user/toLogin">已有账号？返回登录</a></p>
+    <p class="footer"><a th:href="@{/user/toLogin}">已有账号？返回登录</a></p>
 </div>
 </body>
 </html>

@@ -77,16 +77,12 @@
       <version>4.0.1</version>
       <scope>provided</scope>
     </dependency>
+
+    <!--Thymeleaf 模板引擎（Spring5 整合）-->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.2</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet.jsp</groupId>
-      <artifactId>javax.servlet.jsp-api</artifactId>
-      <version>2.3.3</version>
-      <scope>provided</scope>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring5</artifactId>
+      <version>3.0.15.RELEASE</version>
     </dependency>
 
     <!--lombok简化实体类-->

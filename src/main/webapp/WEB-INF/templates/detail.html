@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>${article.title}</title>
+    <meta charset="UTF-8">
+    <title th:text="${article.title}"></title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: "Microsoft YaHei", Arial, sans-serif; background: #f3f4f6; color: #1f2937; padding: 30px 16px; font-size: 15px; }
@@ -16,11 +17,11 @@
 </head>
 <body>
 <div class="page-card">
-    <h1>${article.title}</h1>
-    <div class="meta">作者：${article.username} ｜ 分类：${article.categoryName} ｜ 发布时间：${article.createTime}</div>
-    <div class="content">${article.content}</div>
+    <h1 th:text="${article.title}"></h1>
+    <div class="meta">作者：<span th:text="${article.username}"></span> ｜ 分类：<span th:text="${article.categoryName}"></span> ｜ 发布时间：<span th:text="${article.createTime}"></span></div>
+    <div class="content" th:utext="${article.content}"></div>
     <div class="back">
-        <a class="btn" href="${pageContext.request.contextPath}/article/list">← 返回文章列表</a>
+        <a class="btn" th:href="@{/article/list}">← 返回文章列表</a>
     </div>
 </div>
 </body>

@@ -1,7 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>新增知识文章</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,7 +21,7 @@
 <body>
 <div class="page-card">
     <h2>新增知识文章</h2>
-    <form action="${pageContext.request.contextPath}/article/add" method="post">
+    <form th:action="@{/article/add}" method="post">
         <div class="form-row">
             <label for="title">文章标题</label>
             <input type="text" id="title" name="title" required />
@@ -29,9 +29,9 @@
         <div class="form-row">
             <label for="categoryId">文章分类</label>
             <select id="categoryId" name="categoryId">
-                <c:forEach items="${categoryList}" var="cat">
-                    <option value="${cat.categoryId}">${cat.categoryName}</option>
-                </c:forEach>
+                <option th:each="cat : ${categoryList}"
+                        th:value="${cat.categoryId}"
+                        th:text="${cat.categoryName}"></option>
             </select>
         </div>
         <div class="form-row">
@@ -41,7 +41,7 @@
         <button type="submit" class="submit-btn">提交文章</button>
     </form>
     <div class="back">
-        <a href="${pageContext.request.contextPath}/article/list">← 返回文章列表</a>
+        <a th:href="@{/article/list}">← 返回文章列表</a>
     </div>
 </div>
 </body>
