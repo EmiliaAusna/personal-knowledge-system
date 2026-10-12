@@ -12,6 +12,9 @@ public interface ArticleDao {
     @Select("select a.*,u.username,c.category_name from article a left join `user` u on a.user_id=u.user_id left join category c on a.category_id=c.category_id where a.article_id=#{articleId}")
     Article findById(@Param("articleId") Integer articleId);
 
+    @Select("select a.category_id, count(*) as cnt from article a group by a.category_id")
+    List<java.util.Map<String,Object>> countByCategory();
+
     @Insert("insert into article(title,content,create_time,update_time,user_id,category_id) values(#{title},#{content},now(),now(),#{userId},#{categoryId})")
     int add(Article article);
 

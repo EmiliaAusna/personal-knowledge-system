@@ -5,17 +5,39 @@
     <title th:text="${article.title}"></title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: "Microsoft YaHei", Arial, sans-serif; background: #f3f4f6; color: #1f2937; padding: 30px 16px; font-size: 15px; }
-        .page-card { max-width: 880px; margin: 0 auto; background: #ffffff; border: 2px solid #d1d5db; border-radius: 10px; padding: 26px 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        body { font-family: "Microsoft YaHei", Arial, sans-serif; background: #f3f4f6; color: #1f2937; font-size: 15px; min-height: 100vh; display: flex; flex-direction: column; }
+        .page-card { max-width: 880px; margin: 24px auto; background: #ffffff; border: 2px solid #d1d5db; border-radius: 10px; padding: 26px 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
         h1 { font-size: 24px; padding-bottom: 12px; border-bottom: 2px solid #2563eb; }
         .meta { border: 1px solid #e5e7eb; background: #f9fafb; border-radius: 8px; padding: 10px 14px; color: #6b7280; font-size: 14px; margin: 16px 0; }
         .content { border: 1px solid #e5e7eb; border-radius: 8px; padding: 18px; line-height: 1.8; word-break: break-word; }
         .back { margin-top: 20px; }
         .btn { display: inline-block; border: 1px solid #2563eb; color: #2563eb; background: #fff; border-radius: 6px; padding: 8px 16px; font-size: 14px; text-decoration: none; }
         .btn:hover { background: #2563eb; color: #fff; }
+        .site-header { position: sticky; top: 0; z-index: 20; width: 100%; background: #ffffff; border-bottom: 2px solid #2563eb; box-shadow: 0 1px 6px rgba(0,0,0,0.06); padding: 12px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .brand { font-size: 20px; font-weight: bold; color: #1f2937; }
+        .brand .dot { color: #2563eb; }
+        .user-area { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .welcome { font-size: 14px; color: #374151; }
+        .welcome b { color: #2563eb; }
+        .btn-ghost { display: inline-block; border: 1px solid #d1d5db; background: #fff; color: #374151; border-radius: 6px; padding: 7px 16px; font-size: 14px; }
+        .btn-ghost:hover { border-color: #2563eb; color: #2563eb; text-decoration: none; }
+        @media (max-width: 900px) { .site-header { padding: 12px 16px; } }
     </style>
 </head>
 <body>
+<header class="site-header">
+    <div class="brand"><span class="dot">◆</span> 个人知识系统</div>
+    <div class="user-area" th:if="${session.loginUser != null}">
+        <span class="welcome">欢迎：<b th:text="${session.loginUser.username}"></b></span>
+        <a class="btn-ghost" th:href="@{/article/list}">← 文章列表</a>
+        <a class="btn" th:href="@{/article/toAdd}">撰写新文章</a>
+        <a class="btn-ghost" th:href="@{/user/logout}">退出登录</a>
+    </div>
+    <div class="user-area" th:unless="${session.loginUser != null}">
+        <span class="welcome">游客模式</span>
+        <a class="btn" th:href="@{/user/toLogin}">前往登录</a>
+    </div>
+</header>
 <div class="page-card">
     <h1 th:text="${article.title}"></h1>
     <div class="meta">作者：<span th:text="${article.username}"></span> ｜ 分类：<span th:text="${article.categoryName}"></span> ｜ 发布时间：<span th:text="${article.createTime}"></span></div>

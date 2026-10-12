@@ -17,6 +17,9 @@ public class ArticleService {
     public Article findById(Integer articleId){
         return articleDao.findById(articleId);
     }
+    public List<java.util.Map<String,Object>> countByCategory(){
+        return articleDao.countByCategory();
+    }
     public boolean add(Article article){
         return articleDao.add(article) > 0;
     }

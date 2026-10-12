@@ -92,6 +92,13 @@
       <version>1.18.34</version>
       <optional>true</optional>
     </dependency>
+    <!-- slf4j + logback实现 -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.11</version>
+    </dependency>
+
   </dependencies>
 
   <build>

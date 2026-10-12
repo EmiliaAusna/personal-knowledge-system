@@ -44,6 +44,19 @@ public class ArticleController {
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("articleList",articleList);
         model.addAttribute("categoryList",categoryList);
+        // 每个分类下的文章数量，供侧边栏分类列表显示
+        java.util.Map<Integer,Integer> categoryCountMap = new java.util.HashMap<>();
+        for(java.util.Map<String,Object> row : articleService.countByCategory()){
+            Integer cid = ((Number) row.get("category_id")).intValue();
+            Integer cnt = ((Number) row.get("cnt")).intValue();
+            categoryCountMap.put(cid, cnt);
+        }
+        int totalCount = 0;
+        for(Integer v : categoryCountMap.values()){
+            totalCount += v;
+        }
+        model.addAttribute("categoryCountMap", categoryCountMap);
+        model.addAttribute("totalCount", totalCount);
         return "index";
     }
 
